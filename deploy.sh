@@ -2,14 +2,16 @@
 
 BUILD_TIME=`date`
 
-echo Clear old docs folder
-rm -rf docs
+echo Syncing deploy repo changes
 
-echo Generating new pages
-hugo
+cd public
+git init
+git add origin git@github.com:zorndorff/zorndorff.github.io.git
+git pull origin master
 
-echo Committing changes
-git add docs/ 
-git commit docs/ -m "Content Update $BUILD_TIME"
-git push origin
+cd ../
+hugo --cleanDestinationDir
 
+cd public
+git commit -am "Content Update $BUILD_TIME"
+git push origin master
