@@ -3,26 +3,30 @@ html {
 }
 
 body{
-  background-color: #000;
-	color: #00ff00;
+  background-color: #313638;
+	color: #cccbc2;
 	font-size: 16px;
 	font-family: "Courier New", Courier, monospace;
 }
 
-a {
-	color: #00ff00;
+a,h1 {
+	color: #e8e9eb;
   text-decoration: none;
 }
 a:hover{
-  text-decoration: none;
+  text-decoration: underline;
 }
 a:after{
-  data: '\u25BC';
+  content: ''
   color: #00ff00;
   padding-left: 0.25em;
   font-size: 0.8em;
 }
-
+time{
+  display: block;
+  margin: 1em 0;
+  color: #ef6461;
+}
 .content{
   max-width: 1080px;
   margin: 0 auto;
