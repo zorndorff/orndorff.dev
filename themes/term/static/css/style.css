@@ -3,7 +3,7 @@ html {
 }
 
 body{
-	background-color: #000;
+  background-color: #000;
 	color: #00ff00;
 	font-size: 16px;
 	font-family: "Courier New", Courier, monospace;
@@ -11,17 +11,27 @@ body{
 
 a {
 	color: #00ff00;
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: none;
+}
+a:after{
+  data: '\u25BC';
+  color: #00ff00;
+  padding-left: 0.25em;
+  font-size: 0.8em;
 }
 
 .content{
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0.5em;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.5em;
 }
 
 .flex-container {
-    display: flex;
-    flex-flow: row wrap;
+  display: flex;
+  flex-flow: row wrap;
 	flex-direction: row;
 }
 
