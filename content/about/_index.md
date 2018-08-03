@@ -5,6 +5,12 @@ draft: false
 menu: "main"
 layout: "single"
 ---
-Hi I'm Zac. 
 
-I write code, tinker with electronics, kayak Lake Michigan and watch way too much anime. 	
+Hi , I'm Zac.
+
+A Chicago software engineer.
+
+I love experimenting with new technology and applying the lessons learned to my daily work.
+
+Follow my projects here.
+
