@@ -3,7 +3,7 @@
 BUILD_TIME=`date`
 
 echo Syncing deploy repo changes
-hugo
+hugo --cleanDestinationDir
 
 cd public
 git add -A
