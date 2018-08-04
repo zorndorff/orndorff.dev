@@ -3,7 +3,6 @@
 BUILD_TIME=`date`
 
 echo Syncing deploy repo changes
-cp CNAME public/
 hugo
 
 cd public
