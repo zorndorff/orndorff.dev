@@ -1,6 +1,8 @@
 {{ partial "header.html" . }}
 	<main>
     <h2>Hi</h2>
+    <p>Welcome to my personal landing page, blog, whatever. I'll be using this to host experiments and projects.</p>
+    <b>Posts:</b>
 		{{ $paginator := .Paginate (where .Data.Pages "Type" "posts") }}
 		{{ range $paginator.Pages }}
 			{{ partial "summary.html" . }}

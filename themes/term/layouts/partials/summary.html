@@ -10,7 +10,7 @@
 		<div class="flex-container list list-horizontal">
 		{{ range .Params.tags }}
 			<div class="list-item">
-				<a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
+				<a class="taxonomy-tag" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
 			</div>
 		{{ end }}
 		</div>
