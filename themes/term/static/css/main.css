@@ -17,7 +17,7 @@ a:hover{
   text-decoration: underline;
 }
 a:after{
-  content: ''
+  content: '';
   color: #00ff00;
   padding-left: 0.25em;
   font-size: 0.8em;
@@ -32,7 +32,12 @@ time{
   margin: 0 auto;
   padding: 0.5em;
 }
-
+pre{
+  background: #000;
+  padding: 1em;
+  color: green;
+  border-radius: 10px;
+}
 .flex-container {
   display: flex;
   flex-flow: row wrap;
