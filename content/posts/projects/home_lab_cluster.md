@@ -1,9 +1,10 @@
 ---
 title: "Starting a homelab for kubernetes development"
-date: 2018-08-02T12:09:01-06:00
+date: 2019-03-31T12:09:01-06:00
 categories: ["projects", "kubernetes"]
-tags: ["projects", "kubernetes", "fun", "k3s]
+tags: ["projects", "kubernetes", "fun", "k3s"]
 draft: false
+
 ---
 
 ## The problem
