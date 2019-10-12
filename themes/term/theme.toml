@@ -16,5 +16,5 @@ min_version = "0.36.1"
 
 [original]
   name = "blank"
-  homepage = "https://github.com/vimux""
+  homepage = "https://github.com/vimux"
   repo = "https://github.com/vimux/blank/"
