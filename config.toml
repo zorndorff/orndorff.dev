@@ -1,4 +1,3 @@
 baseURL = "https://zorndorff.github.io/"
 languageCode = "en-us"
 title = "Now with more interwebs."
-theme = "term"
