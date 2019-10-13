@@ -14,4 +14,10 @@ A Chicago software engineer.
 I love experimenting with new technology and applying the lessons learned to my daily work.
 
 Follow my projects here.
+{{ $paginator := .Paginate (where .Data.Pages "Type" "posts") }}
+{{ range $paginator.Pages }}
+
+  {{ partial "summary.html" . }}
+{{ end }}
+{{ partial "pagination.html" . }}
 

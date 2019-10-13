@@ -3,6 +3,7 @@ title: "Getting Started"
 date: 2018-08-02T12:09:01-06:00
 categories: ["GettingStarted"]
 tags: ["GettingStarted", "Posts"]
+type: "post"
 draft: false
 ---
 
