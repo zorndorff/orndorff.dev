@@ -3,7 +3,7 @@
     {{.Content}}
     <br/>
     <strong>Recent:</strong>
-    {{ range .Paginator.Pages.ByPublishDate }}
+    {{ range .Paginator.Pages }}
       {{ partial "summary.html" . }}
     {{ end }}
   </main>
