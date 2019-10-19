@@ -1,11 +1,10 @@
 {{ partial "header.html" . }}
 	<main>
     {{.Content}}
-
-		{{ $paginator := .Paginate (where .Data.Pages "Type" "posts") }}
-		{{ range $paginator.Pages }}
-			{{ partial "summary.html" . }}
-		{{ end }}
-		{{ partial "pagination.html" . }}
-	</main>
+    <br/>
+    <strong>Recent:</strong>
+    {{ range .Paginator.Pages.ByPublishDate }}
+      {{ partial "summary.html" . }}
+    {{ end }}
+  </main>
 {{ partial "footer.html" . }}
