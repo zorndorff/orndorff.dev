@@ -3,8 +3,10 @@
     {{.Content}}
     <br/>
     <strong>Recent:</strong>
-    {{ range .Paginator.Pages }}
-      {{ partial "summary.html" . }}
-    {{ end }}
+    <div class="flex-container list-horizontal">
+      {{ range .Paginator.Pages }}
+        {{ partial "summary.html" . }}
+      {{ end }}
+    </div>
   </main>
 {{ partial "footer.html" . }}
