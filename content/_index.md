@@ -8,8 +8,7 @@ layout: "list"
 
 ---
 
-Hi , I'm Zac.
+Hey there, you've landed on my personal website.
 
-I love experimenting with new technology and tinkering in general.
+I'll be using this space to host my random experiments and ramblings. Follow along as I experience the joy of planning and hacking on random side projects.
 
-Follow my projects here.
