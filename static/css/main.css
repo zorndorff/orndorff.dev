@@ -86,3 +86,11 @@ main, aside, .flex-item{
 		flex: 1 0px;
 	}
 }
+
+
+/* Game */
+#conways{
+  background: blue;
+  height: 500px;
+  width: 500px;
+}
