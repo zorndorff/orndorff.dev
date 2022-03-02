@@ -30,7 +30,7 @@ docker buildx create --name arm-builder
 
 Dockerfile:
 
-```
+```docker
 FROM rustlang/rust:nightly-slim as builder
 WORKDIR /usr/src/ping-server
 COPY . .
@@ -46,7 +46,7 @@ Feel free to modify this for your own use, it should work with the [example repo
 
 Building the included Rust language docker image + echo server.
 
-```
+```docker
 # enable experimental buildx commands.
 export DOCKER_CLI_EXPERIMENTAL=enabled
 # enable arm64 containers on your local machine through qemo.

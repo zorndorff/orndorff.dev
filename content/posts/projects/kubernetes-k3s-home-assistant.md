@@ -1,5 +1,5 @@
 ---
-title: "Run home assistant in k3s - IOT for everyone - part 1"
+title: "Run home assistant in k3s - IOT for everyone"
 date: 2019-05-28T23:06:03-05:00
 categories: ["projects", "kubernetes"]
 tags: ["projects", "kubernetes", "fun", "k3s"]

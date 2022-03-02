@@ -3,7 +3,7 @@ title: "Destroy some tanks with rust : 1"
 date: 2019-12-27T12:09:01-06:00
 categories: ["projects", "rust", "games"]
 tags: ["projects", "rust", "fun"]
-draft: false
+draft: true
 
 ---
 
