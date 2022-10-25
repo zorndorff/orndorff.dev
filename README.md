@@ -1,1 +1,1 @@
-Hugo Powered static site
+Hugo is pretty damn slick.
