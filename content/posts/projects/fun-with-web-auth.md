@@ -46,12 +46,13 @@ This process is outlined here: [Registration](https://developer.mozilla.org/en-U
 1. The new `Credential` is returned to the browser, this includes a GUID that can be used to differentiate between credentials.
 1. The `Credential` and any supporting data is then sent to your server where the new Credential is validated. These checks include verification that the origin, signature and certificates are all as expected.
 
-What this looks like in our client code.
+> Disclaimer: This is my limited understanding of how this works from reading the documentation. I'm likely glossing over incredibly important bits.
 
-A simple, non-exhaustive implementation looks something like this:
+To simplify things a bit, I'll rely on the [@simplewebauthn](https://simplewebauthn.dev/docs/) library to do the heavy lifting.
 
+1st, install the new dependencies. 
 
-
+`npm install @simplewebauthn/server`
 
 
 
