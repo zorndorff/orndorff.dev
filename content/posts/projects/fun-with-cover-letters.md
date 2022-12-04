@@ -1,6 +1,6 @@
 +++
 title = "AI written cover letters fun and profit."
-date = "2020-05-08"
+date = "2022-12-04"
 categories = ["projects", "ai", "openai", "gpt-3", "gigs"]
 type = "posts"
 draft = false
