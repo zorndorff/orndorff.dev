@@ -2,7 +2,7 @@
 date = "2023-11-07"
 title = "Unwrapping the Future of AI: Key Takeaways from OpenAI's Inaugural Developer Day"
 categories = ["AI", "OpenAI", "News"]
-tags = ["llm", "openai", "gpt-3", "ai", "ml", "nlp", "nlu", "nlg", "agents", "transformers", "language models", "language models are few shot learners", "few shot learning", "few shot", "few shot learning", "few shot learning", "few shot learning]
+tags = ["llm", "openai", "gpt-3", "ai", "ml", "nlp", "nlu", "nlg", "agents","transformers", "language models", "language models are few shot learners", "few shot learning", "few shot", "few shot learning", "few shot learning", "few shot learning"]
 type = "posts"
 draft = false
 +++
