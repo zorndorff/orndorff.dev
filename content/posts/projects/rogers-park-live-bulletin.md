@@ -7,8 +7,6 @@ type = "posts"
 draft = false
 +++
 
-# Rogers Park Live Bulletin - October 26, 2024
-
 Residents of Rogers Park and the surrounding areas are advised of several incidents that occurred recently. Local authorities responded promptly to each situation to ensure community safety. Below is a recap of the reported events:
 
 ---
