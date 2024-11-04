@@ -4,7 +4,7 @@ title = "Complexity Bombs in Distributed Systems: When 'Good Enough' Bites You"
 categories = ["engineering", "software"]
 tags = ["engineering", "software", "product development"]
 type = "posts"
-draft = true
+draft = false
 +++
 
 In many engineering organizations I've been part of, the drive for rapid
