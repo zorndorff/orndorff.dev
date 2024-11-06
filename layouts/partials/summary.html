@@ -2,7 +2,7 @@
 		<h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
     <div class="flex-container list list-horizontal">
     {{ range .Params.tags }}
-      <div class="list-item">
+      <div class="list-item-legacy">
         <a class="taxonomy-tag" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
       </div>
     {{ end }}

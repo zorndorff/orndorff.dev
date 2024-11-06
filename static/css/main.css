@@ -58,7 +58,7 @@ main, aside, .flex-item{
 .flex-container.list.list-horizontal{
 	flex-direction: row;
 }
-.list .list-item{
+.list .list-item-legacy {
   width: max-content;
 	margin: 0.5em 0;
 }
