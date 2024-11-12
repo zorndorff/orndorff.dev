@@ -1,9 +1,0 @@
-	<aside>
-		<h3>Posts</h3>
-		<div class="flex-container posts list">
-			{{ range first 5 .Site.Pages }}
-			<div class="list-item"><a href="{{ .Permalink }}">{{ .Title }}</a></div>
-			{{ end }}
-		</div>
-	</aside>
-</div>
