@@ -69,7 +69,7 @@ params:
   homeInfoParams:
     Title: "Why hello there."
     Content: |
-      I'm a Chicago software engineer who loves to move fast and fix things... Usually.
+      I'm a Chicago software engineer who loves to move fast and (Usually) fix things...
 
   socialIcons:
     - name: github
