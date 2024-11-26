@@ -13,7 +13,7 @@ In this premier episode, Julia transports us to Burgundy, the heart of French cu
 
 Join us as we delve into the world of French cooking with Julia Child, and let her guide you through a journey of flavor and tradition that you'll savor with every bite. Whether you're preparing for a grand dinner party or a cozy meal at home, "The French Chef" promises to inspire and equip you to create heartwarming dishes that celebrate the essence of French culinary art. Bon appétit!
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/NlGFkXd-QT0?si=LP0qbt7afAn4j6AF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[Watch the episode here](https://www.youtube.com/watch?v=NlGFkXd-QT0)
 
 ### Ingredients
 - 3 lbs boneless chuck beef (various cuts)
