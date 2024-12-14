@@ -122,6 +122,11 @@ menu:
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  asciidocExt:
+    safeMode: unsafe
   highlight:
     noClasses: false
     # anchorLineNos: true
