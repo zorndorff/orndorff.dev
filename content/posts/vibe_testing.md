@@ -8,7 +8,7 @@ draft = false
 +++
 
 
-> Jokes follow...
+> Jokes follow... Please don't yeet code with assert(true) into production based on this article.
 
 In the high-pressure world of software development, we've all been doing it wrong. Forget test-driven development. Forget behavior-driven development. It's time to embrace the revolutionary approach of *vibe-driven testing*.
 
