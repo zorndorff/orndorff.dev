@@ -7,8 +7,6 @@ type = "posts"
 draft = false
 +++
 
-# When Docker Says "not found" But ls Says "it's right there": A glibc/musl Comedy of Errors
-
 You know that moment when your computer is gaslighting you? When you run `ls` inside a Docker container, see your executable sitting there with perfect permissions, but when you try to run it, the shell just shrugs and says "not found"? 
 
 Welcome to my Saturday morning.
