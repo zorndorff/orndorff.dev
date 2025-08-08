@@ -1,5 +1,5 @@
 +++
-date = "2025-08-02"
+date = "2025-08-08"
 title = "That terrible presentation, the enshittification of OpenAi"
 categories = ["engineering", "software", "ai"]
 tags = ["engineering", "software", "ai", "rambling"]
