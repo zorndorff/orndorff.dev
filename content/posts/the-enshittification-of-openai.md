@@ -19,8 +19,8 @@ Looking at derpartures over the last 2 years, it's a who's who of the company's 
 *   **Ilya Sutskever**, a co-founder and the company's Chief Scientist who was central to many of OpenAI's breakthroughs, left in May 2024 to start a new venture focused purely on AI safety, Safe Superintelligence (SSI).
 *   **Jan Leike**, who co-led the "Superalignment" team with Sutskever, resigned shortly after, famously stating that "safety culture and processes have taken a backseat to shiny products". He immediately joined rival Anthropic.
 *   **John Schulman**, another co-founder and a key mind behind the training of ChatGPT, also departed for Anthropic in August 2024 to get back to "hands-on technical work" on AI alignment.
-*   The C-suite was hollowed out in late 2024 with the near-simultaneous resignations of CTO **Mira Murati** (who went on to found Thinking Machines Lab [9, 10]), Chief Research Officer **Bob McGrew**, and VP of Research **Barret Zoph**.
-*   Even the product leadership has seen churn, with **Peter Deng**, the VP of Consumer Product who led ChatGPT's rollout, leaving to become a venture capitalist at Felicis Ventures.
+
+The C-suite was hollowed out in late 2024 with the near-simultaneous resignations of CTO **Mira Murati** (who went on to found Thinking Machines Lab), Chief Research Officer **Bob McGrew**, and VP of Research **Barret Zoph**. Even the product leadership has seen churn, with **Peter Deng**, the VP of Consumer Product who led ChatGPT's rollout, leaving to become a venture capitalist at Felicis Ventures.
 
 Meta has aggressively poached top researchers with massive compensation packages, luring away core model builders like **Shengjia Zhao** (a co-creator of ChatGPT, now Chief Scientist at Meta's new lab), **Jason Wei**, and **Hyung Won Chung** (key contributors to the `o1` and `o3` reasoning models), and entire teams working on foundational models like GPT-4.
 
