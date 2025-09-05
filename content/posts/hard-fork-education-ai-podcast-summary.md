@@ -1,5 +1,3 @@
-Here is a final draft of the article, tailored for AI engineering leaders.
-
 +++
 date = "2025-09-05"
 title = "AI in the Classroom: Product Blueprints from the 'Hard Fork' Podcast"

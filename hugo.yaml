@@ -2,7 +2,9 @@ baseURL: "https://orndorff.dev/"
 languageCode: "en-us"
 title: "orndorff.dev"
 
-paginate: 5
+pagination:
+  pagerSize: 5
+
 theme: 'PaperMod'
 
 enableRobotsTXT: true
