@@ -7,8 +7,6 @@ type = "posts"
 draft = false
 +++
 
-## AI in the Classroom: Product Blueprints from the 'Hard Fork' Podcast
-
 For AI engineering leaders, the annual back-to-school season isn't just a cultural milestone; it's a market signal. It marks a massive influx of users engaging with digital tools, testing the limits of existing platforms, and revealing unmet needs. The recent "Hard Fork" podcast episode on AI in education serves as a potent source of raw user research, offering a direct line into the mindsets of educators, innovators, and the students who form the next generation of knowledge workers.
 
 This isn't just about how AI is changing homework. It's about decoding the fundamental shifts in how learning is delivered, assessed, and valued. For those building the next wave of SaaS platforms, this episode provides clear blueprints for product strategy, highlights critical failure modes to avoid, and illuminates the emerging "jobs-to-be-done" in a rapidly evolving ed-tech landscape.
