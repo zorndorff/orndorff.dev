@@ -1,8 +1,9 @@
+
 +++
 date = "2025-10-01"
 title = "What I am for."
 categories = ["random"]
-tags = ["random]
+tags = ["random"]
 type = "posts"
 draft = false
 +++
