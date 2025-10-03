@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MACHOCOIN - KICK YOUR WALLET IN THE BALLS!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for that extra level of TACKY */
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: url('https://www.transparenttextures.com/patterns/fire.png'), linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            background-blend-mode: overlay;
+            animation: background-pan 10s linear infinite;
+        }
+
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .font-anton {
+            font-family: 'Anton', sans-serif;
+            text-shadow: 3px 3px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .btn-buy {
+            animation: pulse-and-shake 1.5s infinite;
+            border: 5px solid gold;
+            box-shadow: 0 0 20px yellow, inset 0 0 10px red;
+        }
+
+        @keyframes pulse-and-shake {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .text-glow {
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6; }
+        }
+
+        .spinning-coin {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #ffd700, #f0e68c, #ffd700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8b4513;
+            border: 5px solid #b8860b;
+            box-shadow: 0 0 25px gold;
+            animation: spin 3s linear infinite, wobble 5s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        .spinning-coin:before {
+            content: 'M';
+            font-family: 'Anton', sans-serif;
+        }
+
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        @keyframes wobble {
+            0% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(180deg); }
+            100% { transform: translateY(0px) rotateY(360deg); }
+        }
+    </style>
+</head>
+<body class="text-white overflow-x-hidden">
+
+    <!-- Header: With Extra 'Merica -->
+    <header class="bg-blue-800 bg-opacity-70 border-b-8 border-red-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="font-anton text-2xl md:text-4xl text-yellow-300">MACHOCOIN</h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#buy" class="font-anton text-xl hover:text-green-400 text-glow">BUY NOW!</a>
+                <a href="#why" class="font-anton text-xl hover:text-green-400">WHY IT'S #1</a>
+                <a href="#chart" class="font-anton text-xl hover:text-green-400">BIG CHARTS</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section: The Main Event -->
+    <main class="container mx-auto p-4 md:p-8 text-center">
+        <div class="bg-black bg-opacity-50 rounded-2xl p-8 border-4 border-yellow-400 shadow-2xl">
+            <div class="flex justify-center mb-6">
+                <img src="https://placehold.co/200x200/000000/FFFFFF?text=CAMACHO+2025" alt="President Camacho Flexing" class="rounded-full border-8 border-red-500 shadow-lg">
+            </div>
+            <h2 class="font-anton text-4xl md:text-7xl text-green-400 uppercase tracking-wider text-glow">GET RICH, MORANS!</h2>
+            <p class="mt-4 text-xl md:text-2xl text-yellow-200">Other coins are for sissies. MachoCoin is built on the blockchain of PURE AWESOMENESS!</p>
+            <p class="mt-2 text-lg md:text-xl text-yellow-200">It's got what wallets crave. It's got <span class="font-bold text-green-400 text-glow">ELECTROLYTES!</span></p>
+
+            <div id="buy" class="mt-10 flex flex-col items-center">
+                <a href="#" class="btn-buy font-anton text-3xl md:text-5xl bg-red-600 hover:bg-red-700 text-white font-bold py-6 px-12 rounded-full transform transition-transform duration-200 hover:scale-105">
+                    BUY MACHOCOIN NOW!
+                </a>
+                <p class="mt-4 text-sm text-gray-300">(Smash this button with your face to buy!)</p>
+            </div>
+        </div>
+
+        <!-- Why It's Awesome Section -->
+        <div id="why" class="mt-12 bg-black bg-opacity-50 rounded-2xl p-8 border-4 border-green-400">
+            <h3 class="font-anton text-4xl md:text-6xl text-yellow-300">WHY MACHOCOIN KICKS OTHER COINS IN THE NUTS</h3>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-blue-900 bg-opacity-70 p-6 rounded-lg border-2 border-blue-400">
+                    <div class="text-6xl mb-4">💥</div>
+                    <h4 class="font-anton text-2xl text-red-500">MAXIMUM POWER</h4>
+                    <p class="mt-2">Our blockchain is powered by monster trucks and bald eagles. It don't get more 'Merican than that.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-blue-900 bg-opacity-70 p-6 rounded-lg border-2 border-blue-400">
+                    <div class="text-6xl mb-4">💧</div>
+                    <h4 class="font-anton text-2xl text-green-400">IT'S GOT ELECTROLYTES</h4>
+                    <p class="mt-2">We watered our servers with Brawndo (The Thirst Mutilator). Your portfolio will thank you.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-blue-900 bg-opacity-70 p-6 rounded-lg border-2 border-blue-400">
+                    <div class="text-6xl mb-4">🧠</div>
+                    <h4 class="font-anton text-2xl text-yellow-400">FOR SMART PEOPLE</h4>
+                    <p class="mt-2">Don't be a tard. Smart people know this is the coin of the future. The future has money. You want money.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Chart Section -->
+        <div id="chart" class="mt-12 bg-black bg-opacity-50 rounded-2xl p-8 border-4 border-red-500">
+            <h3 class="font-anton text-4xl md:text-6xl text-green-400">OUR SCIENTIFIC PRICE CHART</h3>
+            <p class="text-lg text-yellow-200 mt-2">Our best financial guys made this. It's 100% accurate.</p>
+            <div class="mt-8 relative w-full h-64 md:h-96 bg-gray-800 rounded-lg p-4 border-2 border-gray-500">
+                <svg class="absolute bottom-4 left-4 w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-anton text-8xl text-red-600 rotate-[-30deg]">UP!</p>
+                <p class="absolute top-4 right-4 font-anton text-4xl text-yellow-300">TO THE MOON!</p>
+                 <div class="absolute bottom-10 right-10 text-8xl animate-pulse">🚀</div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="mt-12 bg-black bg-opacity-50 rounded-2xl p-8 border-4 border-yellow-400">
+            <h3 class="font-anton text-4xl md:text-6xl text-blue-400">WHAT SMART PEOPLE ARE SAYIN'</h3>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-green-900 bg-opacity-70 p-6 rounded-lg border-2 border-green-400 text-left">
+                    <p class="text-lg">"I like money. MachoCoin is like, money... but more of it. I'm the smartest guy at the Costco now."</p>
+                    <div class="mt-4 flex items-center">
+                        <img src="https://placehold.co/80x80/EEEEEE/333333?text=FRITO" alt="Frito" class="w-16 h-16 rounded-full border-4 border-white">
+                        <div class="ml-4">
+                            <p class="font-bold text-xl">Frito Pendejo</p>
+                            <p class="text-sm text-gray-300">Future Attorney General</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                 <div class="bg-green-900 bg-opacity-70 p-6 rounded-lg border-2 border-green-400 text-left">
+                    <p class="text-lg">"Welcome to MachoCoin. I love you. Welcome to MachoCoin. I love you. Welcome to MachoCoin. I love you."</p>
+                    <div class="mt-4 flex items-center">
+                        <img src="https://placehold.co/80x80/CCCCCC/111111?text=REHABILITATION+OFFICER" alt="Rehabilitation Officer" class="w-16 h-16 rounded-full border-4 border-white">
+                        <div class="ml-4">
+                            <p class="font-bold text-xl">Helpful Computer Voice</p>
+                            <p class="text-sm text-gray-300">Your Parole Officer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Call to Action -->
+        <div class="mt-12 flex flex-col items-center justify-center">
+            <h3 class="font-anton text-4xl md:text-7xl text-yellow-300">DON'T BE A DILDO.</h3>
+            <div class="my-8 spinning-coin"></div>
+            <a href="#" class="btn-buy font-anton text-3xl md:text-5xl bg-green-600 hover:bg-green-700 text-white font-bold py-6 px-12 rounded-full transform transition-transform duration-200 hover:scale-105">
+                GET YOUR MACHO ON!
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 bg-black bg-opacity-80 p-4 border-t-8 border-yellow-400">
+        <div class="container mx-auto text-center text-sm text-gray-400">
+            <p>© 2025 The Camacho Administration & Brawndo Corporation.</p>
+            <p>This is for serious investors only. No sissies. We are not responsible if you lose all your money, your house, or your wife. That's your problem, Scrot.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
