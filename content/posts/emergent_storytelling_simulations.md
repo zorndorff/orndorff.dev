@@ -368,7 +368,7 @@ All it takes is a few simple rules—and the patience to watch what emerges.
 ## Technical Appendix
 
 **Project**: Dwarf Explorer Prime
-**Repository**: [dwarf-explorer](https://github.com/your-repo-here)
+**Repository**: [dwarf-explorer](https://github.com/sandwichlabs/dwarf-explorer)
 **Technologies**:
 - DFHack (Lua scripting for Dwarf Fortress)
 - Go 1.22+
@@ -381,6 +381,8 @@ All it takes is a few simple rules—and the patience to watch what emerges.
 - `internal/db/schema.go` - Database schema definitions
 
 **Try It Yourself**:
+
+> Note: I haven't decided to open source this yet.
 
 ```bash
 # Install MindLogger in your DF mods folder
