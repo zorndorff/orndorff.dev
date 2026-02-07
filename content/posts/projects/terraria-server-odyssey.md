@@ -7,6 +7,8 @@ type = "posts"
 draft = false
 +++
 
+> **A note from the co-author:** This post was written collaboratively with [Claude](https://claude.ai), who also did most of the actual infrastructure work — reading docs, writing Ansible roles, debugging crashed services over SSH, and talking me out of increasingly cursed networking solutions. When we hit the Fly.io memory wall at 2am, Claude suggested the boring VPS approach that actually worked. Fair to say this server wouldn't be running without the assist. — *Zac*
+
 My son casually mentioned he'd been playing Terraria with friends. "You know," I said, brain already spinning up infrastructure diagrams, "I could set up a dedicated server so you guys don't have to host it yourselves."
 
 He shrugged. "Sure, that'd be cool."
