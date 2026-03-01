@@ -9,13 +9,13 @@ draft = false
 
 ## Screenshots in a Folder Aren't a Demo Reel
 
-I'm building [ContextChannel](https://github.com/sandwich-labs/context-channel-app) -- an edge-native content curation platform on Cloudflare Workers (Hono, D1, Drizzle ORM, HTMX, the whole neo-brutalist vibe). I needed to do a full QA pass across the entire user journey and wanted to document it in a way that wasn't just 25 PNGs rotting in a folder.
+I'm building [ContextChannel](https://context-app.sandwichlabs.dev/) -- an edge-native content curation platform on Cloudflare Workers (Hono, D1, Drizzle ORM, HTMX, the whole neo-brutalist vibe). I needed to do a full QA pass across the entire user journey and wanted to document it in a way that wasn't just 25 PNGs rotting in a folder.
 
 So I did the QA with an AI agent and then had it turn the screenshots into a video. In one session. Here's how that went.
 
 ## Let the Robot Click Things
 
-I've been using [Claude Code](https://claude.ai/code) for most of my dev work on this project. I also built a headless Chrome automation CLI called **Rodney** that I wired up as a Claude Code skill (basically Puppeteer with opinions). I pointed Claude at my local dev server and told it to walk through every flow and screenshot each step.
+I've been using [Claude Code](https://claude.ai/code) for most of my dev work on this project. For browser automation I use [Rodney](https://simonwillison.net/2026/Feb/10/showboat-and-rodney/), a headless Chrome CLI from Simon Willison that I wired up as a Claude Code skill (basically Puppeteer with opinions). I pointed Claude at my local dev server and told it to walk through every flow and screenshot each step.
 
 Rodney clicked through 23 steps across the full app -- landing page, early access signup, OTP login, admin approval, channel archive, the Interceptor (a Web Share Target for saving links), RSS feeds, subscriptions, invitations, and logout. Each step got a numbered screenshot dumped into `qa-screenshots/`.
 
@@ -58,5 +58,5 @@ A year ago this would've been a manual afternoon. Now it's a conversation and a 
 ---
 
 **Stack:** Cloudflare Workers, Hono, D1, Drizzle ORM, HTMX
-**Tools:** Claude Code, Rodney (headless Chrome CLI), ffmpeg, ImageMagick
-**Source:** [context-channel-app](https://github.com/sandwich-labs/context-channel-app)
+**Tools:** Claude Code, [Rodney](https://simonwillison.net/2026/Feb/10/showboat-and-rodney/) (headless Chrome CLI by Simon Willison), ffmpeg, ImageMagick
+**Source:** [context-app.sandwichlabs.dev](https://context-app.sandwichlabs.dev/)
