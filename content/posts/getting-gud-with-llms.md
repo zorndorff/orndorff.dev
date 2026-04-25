@@ -85,42 +85,42 @@ Identify the specific step that broke and the evidence that it broke. One of my 
 
 > "Make sure this exits on error properly. oauth scopes were wrong and the script continued."
 
-That is one sentence. It both diagnoses (the script kept going past a real error) and prescribes (exit on error). It is blameless. It does not throw away the seven other things the agent got right.
+One sentence. It diagnoses (the script kept going past a real error) and prescribes (exit on error). It's blameless. It doesn't throw away the seven other things the agent got right.
 
-Compare that to *"this is broken, start over."* That nukes every correct decision the agent has made up to the point of failure. You will redo work. You will lose a half-built mental model. You will probably hit the same bug again, because you did not tell it what was actually wrong.
+Compare that to *"this is broken, start over."* That nukes every correct decision the agent has made up to the point of failure. You'll redo work. You'll lose a half-built mental model. You'll probably hit the same bug again, because you didn't tell it what was actually wrong.
 
-Surgical corrections compound. Nuclear corrections do not. If you find yourself wanting to rage-restart, that is a signal that you should slow down, find the specific place the trajectory broke, and write one sentence about it.
+Surgical corrections compound. Nuclear corrections don't. If you find yourself wanting to rage-restart, slow down, find the specific place the trajectory broke, and write one sentence about it.
 
 ## 7. Adopt new models the day they ship
 
 Run them against your real work, not benchmarks.
 
-Sonnet 3.5 is in my logs the month it shipped. Opus 3 within days. `o3-mini` in the first week. `gemini-3-pro` and `gemini-3.1` essentially immediately. Loyalty is a vice here. The model is a `-m` flag. The switching cost is approximately zero, and the only way to build calibrated intuition for which model to use for which job is to actually use them on jobs you care about.
+Sonnet 3.5 is in my logs the month it shipped. Opus 3 within days. `o3-mini` in the first week. `gemini-3-pro` and `gemini-3.1` essentially immediately. Loyalty is a vice here. The model is a `-m` flag. Switching cost is approximately zero, and the only way to build calibrated intuition for which model fits which job is to use them on jobs you actually care about.
 
-Benchmarks tell you how a model does on a curated test set. They cannot tell you how it does on your codebase, with your conventions, on the kind of bug you actually have at 4 PM on a Thursday. The only way to know that is to point the new model at last week's real work and see what happens.
+Benchmarks tell you how a model does on a curated test set. They can't tell you how it does on your codebase, with your conventions, on the kind of bug you actually have at 4 PM on a Thursday. The only way to know that is to point the new model at last week's real work and see what happens.
 
 This also keeps your reaction to new releases proportionate. People who only read the launch posts oscillate between "this is the future" and "this is hype." People who run the model on their actual stuff land somewhere boring and accurate, like *"better at Go refactors, worse at long planning, same on SQL."* Boring and accurate is what you want.
 
 ## 8. Treat the agent like a competent junior
 
-The right mental model for a coding agent is not "oracle" and not "autocomplete." It is junior engineer who is fast, willing, and forgets nothing within a session.
+The right mental model for a coding agent isn't "oracle" and isn't "autocomplete." It's a junior engineer who is fast, willing, and forgets nothing within a session.
 
-That mental model tells you almost everything you need to know about how to work with one. Give it context the way you would give a junior context. Answer its clarifying questions in numbered replies — *"1, 3"* is faster than restating the options, and the agent handles it fine. Carry conventions across projects explicitly:
+That frame tells you almost everything you need to know about how to work with one. Give it context the way you'd give a junior context. Answer its clarifying questions in numbered replies. *"1, 3"* is faster than restating the options, and the agent handles it fine. Carry conventions across projects explicitly:
 
 > "Follow our standard go service conventions in other sandwichlabs projects ../"
 
 That single line, pointed at sibling repos, replaces a thousand-word style guide. The conventions live in the codebase. You just have to tell the agent to look.
 
-Plan before implementing on long tasks. Have it dogfood its own output by spawning a cheaper sub-agent to use the thing it just built — *"go ahead and open the web ui in rodney and qa the core worflows"* (typo preserved, the agent did not care). None of this is novel. All of it is what working with a competent junior looks like, and the analogy fits because the failure modes are the same: under-specified asks, missing context, tonal flailing instead of specific feedback.
+Plan before implementing on long tasks. Have it dogfood its own output by spawning a cheaper sub-agent to use the thing it just built. *"go ahead and open the web ui in rodney and qa the core worflows"* (typo preserved, the agent didn't care). None of this is novel. All of it is what working with a competent junior looks like, and the analogy fits because the failure modes are the same: under-specified asks, missing context, tonal flailing instead of specific feedback.
 
-If the junior-engineer frame feels like it is doing work for you, keep using it. If it stops feeling useful, you have probably outgrown it, which is fine — but you cannot skip it.
+If the junior-engineer frame feels like it's doing work for you, keep using it. If it stops feeling useful, you've probably outgrown it. Fine. You still couldn't have skipped it.
 
 ## There is no "prompt engineering"
 
 The phrase implies the prompt is the special thing. The prompt is the cheapest part of the work.
 
-The expensive parts are: knowing your domain, knowing your contracts, knowing your rules, and knowing when to plan versus when to one-shot. Those four things are what separate people whose LLM work compounds from people whose LLM work plateaus. They are also, not coincidentally, the same four things that separate good engineers from mediocre engineers when there is no LLM in the loop at all.
+The expensive parts: knowing your domain, knowing your contracts, knowing your rules, and knowing when to plan versus when to one-shot. Those four are what separate people whose LLM work compounds from people whose LLM work plateaus. Not coincidentally, they're the same four that separate good engineers from mediocre engineers when there's no LLM in the loop at all.
 
-If you are good at those four, your prompts will be fine. They will be ungrammatical, full of typos, dictated on a walk, ended mid-thought. The model will handle it. If you are bad at those four, no amount of cleverness in the prompt itself will save you, and you will end up writing a Reddit post about how the model got worse.
+If you're good at those four, your prompts will be fine. They'll be ungrammatical, full of typos, dictated on a walk, ended mid-thought. The model will handle it. If you're bad at those four, no amount of cleverness in the prompt itself will save you, and you'll end up writing a Reddit post about how the model got worse.
 
-It did not get worse. The work got harder, because you got more ambitious, because the tools made you more ambitious. That is the deal. Get gud at the four, and the rest is translation.
+It didn't get worse. The work got harder, because you got more ambitious, because the tools made you more ambitious. That's the deal. Get gud at the four, and the rest is translation.
