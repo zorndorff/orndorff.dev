@@ -244,6 +244,59 @@ no network in the loop.
 
 That last part still feels a little like magic.
 
+## Update: from a hand-check to a real harness
+
+The six-question grade above was done by hand — I read each answer and decided if
+it was right. That doesn't scale, and "I read it and it looked right" is exactly
+the failure mode that let the Eevee hallucination through the first time. So I
+turned the eval into a repeatable harness, and a couple of things fell out that
+are worth writing down.
+
+**Structured output first.** I added `cbi agent --ask "..." --json`: instead of
+streaming prose, the agent emits one JSON object — the final answer, the *tool-call
+trace* (every `sql_query`/`hybrid_search` it issued, in order), token usage, and
+wall-clock. The tool trace turns out to be the most useful field: it lets the
+grader see *how* the agent reached an answer, not just whether the answer matched.
+(One honest caveat: the local provider under-reports generated tokens today, so I
+lean on wall-clock as the cost signal.)
+
+**Then a driver.** `cbi eval --bundle … --questions q.jsonl` loads the model once
+and runs an answer key through it in-process — much faster than shelling out per
+question — and scores each answer deterministically, *no LLM judge*. For
+knowledge-graph QA the gold answer is a set of entities, so:
+
+- **Recall** = fraction of gold entities the answer mentions.
+- **Exact** = all gold mentioned (Hits@all) — the headline number.
+- **Precision** = of the known entities the answer named, how many were gold.
+
+That last one is the trick that makes the Eevee bug *measurable*. Over-generation
+— naming Espeon, Umbreon, the other real Eeveelutions — shows up as a precision
+drop, fully automatically, with no model in the loop to share the hallucination's
+priors. The only subtlety: you have to exclude the entity named in the *question*
+itself ("List **Eevee**'s evolutions"), or the model politely restating the
+subject reads as a false positive. With that fixed, an answer that lists exactly
+the three real evolutions scores precision 1.0, and one that pads the list gets
+dinged in proportion. Honest "not found" misses are still counted apart from
+confident wrong answers — that distinction was the best part of the original
+exercise and it survives into the leaderboard.
+
+**A real dataset.** Pokémon is a toy. To sweep model sizes and question
+difficulty I wrote a converter for [MetaQA](https://github.com/yuyuz/MetaQA) — the
+WikiMovies knowledge base with QA sets pre-split into 1-, 2-, and 3-hop questions.
+It maps cleanly onto the same node/edge model (movies, people, genres, years), so
+the *exact same agent* answers movie questions with zero code changes — the whole
+point of a domain-agnostic graph.
+
+And running it immediately taught me something the Pokémon set hadn't. On the
+movie graph, E4B nails forward traversals — "who directed Kismet", "what genre is
+Vamp" — but stumbles on **reverse-direction** ones: "what movies did Grace Jones
+appear in" walks the `STARRED` edge backwards (it's stored Movie→Person), and the
+model kept querying the wrong direction. The lovely part: it failed *honestly*
+both times — "I could not find any movies … based on the executed queries" — never
+inventing a filmography. The grounding work from round one held under a brand-new
+domain and a brand-new failure mode. That's the whole reason to build the harness:
+not to celebrate a score, but to find the next honest miss.
+
 ---
 
 *Stack: `cbi` (Go) · DuckDB 1.5 (`vss`/`fts`/`duckpgq`) · kronk + llama.cpp (Vulkan,
