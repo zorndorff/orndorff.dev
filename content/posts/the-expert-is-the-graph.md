@@ -7,20 +7,14 @@ type = "posts"
 draft = false
 +++
 
-For the last couple of weeks I've been building `cbi`, a small, domain-agnostic
-GraphRAG toolkit in Go. It ingests data into a DuckDB knowledge graph, exports it
-as a portable, `cat`-readable knowledge bundle, and ships a chat agent that
-answers questions about it — all running **fully local**, on a single AMD chip on
+For the last couple of weeks I've been building `okb`, a small, domain-agnostic
+knowledge bundle producing tool. It ingests data into a DuckDB knowledge graph, exports it
+as a portable, `cat`-readable [open knowledge format](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing) bundle packaged as a Claude compatible 'skill'. Also ships a chat agent that
+answers questions about the bundle powered by [kronk](https://www.kronkai.com/). All running **fully local**, on a single AMD chip on
 my desk. No API keys, no cloud, no embedding server.
 
 I started with a narrow question: *how small can a local model be and still answer
-graph questions usefully?* I ended somewhere I didn't expect, with a result that
-reframed the whole project:
-
-> I handed the **same** knowledge graph to a tiny 4-bit model on my desk and to a
-> frontier model (Claude Sonnet), graded both with the same judge — and the
-> frontier model didn't win. Then I rebuilt the graph with a better extractor, and
-> the local model pulled **ahead of Sonnet outright.**
+graph questions usefully?* I ended somewhere I didn't expect, a fully self-contained system for bundling domain knowledge into portable 'skills' that works well enough that a local 12B model can perform on-par with a frontier model on retrieval tasks.
 
 This is the story of how I got to those numbers, and why I think they point at a
 genuinely different way to package domain knowledge for AI: not by fine-tuning a
@@ -30,7 +24,7 @@ turns out not to be the bottleneck. The graph is. And graphs, you can build.
 
 ## The system, in one breath
 
-`cbi` keeps a deliberately boring data model — typed **nodes** (entities with
+`okb` keeps a deliberately boring data model — typed **nodes** (entities with
 properties and an embedding) and typed, directed **edges** — in one DuckDB file.
 Four DuckDB extensions turn that file into a hybrid search engine: `vss` for vector
 similarity, `fts` for BM25 lexical search, `spatial` for geometry, and `duckpgq`
@@ -44,7 +38,7 @@ itself. It's human-readable, agent-readable, and precisely queryable at the same
 time. Hand that one directory to anything that can read files and run SQL, and it
 knows your domain. **That bundle is the product.**
 
-The local agent (`cbi agent --bundle ./some-bundle`) answers over it using
+The local agent (`okb agent --bundle ./some-bundle`) answers over it using
 **Gemma 4** for generation and **EmbeddingGemma-300M** for retrieval, both running
 under Vulkan on an AMD Ryzen AI MAX+ 395 ("Strix Halo"). It answers *only* by
 calling tools — `schema`, read-only `sql_query`, `hybrid_search`, and doc browsing —
@@ -108,7 +102,7 @@ track — a ~1 MB prose corpus with graded questions in four styles (Fact Retrie
 Complex Reasoning, Contextual Summarize, Creative Generation), normally scored by a
 `gpt-4o-mini` judge.
 
-`cbi` ingests structured graphs, so I needed an extraction pass to turn prose into a
+`okb` ingests structured graphs, so I needed an extraction pass to turn prose into a
 graph. As a first cut I had a local Qwen-35B read the corpus in chunks and emit
 entities + relations — a throwaway script, one pass, no cleanup. Then I ran the
 *entire* evaluation loop locally: answering with Gemma, and **judging with the same
@@ -135,7 +129,7 @@ but to a *frontier* model?
 
 I spun up **Claude Sonnet** subagents, gave each the same medical bundle, and let
 them answer the same 32-question sample using the bundle's *generic* toolkit — the
-`duckdb` CLI, `cbi query`, the markdown docs — under the same "ground every fact,
+`duckdb` CLI, `okb query`, the markdown docs — under the same "ground every fact,
 no outside knowledge" rule. Then I scored them with the **same local judge** that
 graded the local agent. Apples to apples on everything except the brain doing the
 reading.
@@ -170,7 +164,7 @@ reading it.** Which means the bottleneck — and the place all the leverage live
 The throwaway Qwen script left obvious damage in the graph: duplicate entities
 (`hodgkin_lymphoma`, `_2`, `_3`), a sprawling ~150-relation vocabulary with
 inconsistent directions, missing nodes, and facts attached at the wrong
-granularity. So I built a proper extraction pipeline *inside* `cbi`, fully local and
+granularity. So I built a proper extraction pipeline *inside* `okb`, fully local and
 in-process — a local 12B running five stages with no external server:
 
 1. **Bootstrap an ontology** — propose a compact, closed set of entity types and
@@ -205,8 +199,8 @@ GraphRAG-Bench medical, same 32 questions, same local judge
   graph + answerer                       overall   Fact Retrieval
   v1: Qwen-35B one-pass + local 12B     ░░░ 0.520   0.404
   Sonnet over the v1 bundle             ░░░ 0.491   0.429
-  cbi extract (over-merged) + 12B       ░░  0.405   0.285   ← the regression
-  cbi extract (leader-clustering) + 12B ███ 0.581   0.452   ← fixed
+  okb extract (over-merged) + 12B       ░░  0.405   0.285   ← the regression
+  okb extract (leader-clustering) + 12B ███ 0.581   0.452   ← fixed
 ```
 
 **0.581 overall** — beating both the 35B-built graph (0.520) and frontier Sonnet
@@ -257,7 +251,7 @@ you can build.
 
 ---
 
-*Stack: `cbi` (Go) · DuckDB 1.5 (`vss`/`fts`/`spatial`/`duckpgq`) · kronk +
+*Stack: `okb` (Go) · DuckDB 1.5 (`vss`/`fts`/`spatial`/`duckpgq`) · kronk +
 llama.cpp (Vulkan) · answerers: Gemma 4 E2B/E4B/12B `Q4_K_M` (local) and Claude
 Sonnet (over the OKF bundle) · in-process extraction + local judge: Qwen3.6-35B /
 Gemma 4 12B · EmbeddingGemma-300M / BGE-small embeddings · GraphRAG-Bench medical
