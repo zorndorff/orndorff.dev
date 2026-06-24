@@ -16,27 +16,26 @@ questions about it. The whole thing runs **fully local**, on a single AMD chip o
 desk. No API keys, no cloud, no embedding server.
 
 I started with a pretty narrow question: *how small can a local model be and still
-answer graph questions usefully?* I expected to find a floor — some parameter count
-below which the thing just falls apart — write it up, and move on. That's not where I
-ended up. I ended up with a self-contained way to bundle domain knowledge into
-portable skills, and a result I keep turning over in my head: a 4-bit 12B model on my
-desk answered questions about a medical corpus *as well as frontier Claude reading the
-exact same data.*
+answer graph questions usefully?* I expected to find a floor, some parameter count below
+which the thing just falls apart, write it up, and move on. That's not where I landed.
+What I got instead was a self-contained way to bundle domain knowledge into portable
+skills, plus a result I keep turning over in my head: a 4-bit 12B model on my desk
+answered questions about a medical corpus *as well as frontier Claude reading the exact
+same data.*
 
 This is the story of how I got to those numbers, and why I think they point at a
-genuinely different way to package domain knowledge for AI. Not by fine-tuning a model.
-By building a small, inspectable, model-agnostic graph that any agent can pick up and
-answer from. The expensive, scarce thing here — a frontier model — turns out not to be
-the bottleneck. The graph is. And graphs, you can build.
+genuinely different way to package domain knowledge for AI. Not by fine-tuning a model,
+but by building a small, inspectable, model-agnostic graph that any agent can pick up and
+answer from.
 
 ## The system, in one breath
 
-`okb` keeps a deliberately boring data model: typed **nodes** (entities with
-properties and an embedding) and typed, directed **edges**, all in one DuckDB file.
-Four DuckDB extensions turn that file into a hybrid search engine — `vss` for vector
-similarity, `fts` for BM25 lexical search, `spatial` for geometry, and `duckpgq` for
-property-graph traversal (`MATCH`, `GRAPH_TABLE`). Search fuses the lexical and
-semantic channels with Reciprocal Rank Fusion, with graph queries on top.
+`okb` keeps a deliberately boring data model: typed **nodes** (entities with properties
+and an embedding) and typed, directed **edges**, all in one DuckDB file. Four DuckDB
+extensions turn that file into a hybrid search engine: `vss` for vector similarity, `fts`
+for BM25 lexical search, `spatial` for geometry, and `duckpgq` for property-graph
+traversal (`MATCH`, `GRAPH_TABLE`). Search fuses the lexical and semantic channels with
+Reciprocal Rank Fusion, with graph queries on top.
 
 The thing it actually produces — the payoff — is what I've been calling an **OKF
 bundle**: a directory holding a `SKILL.md` that explains the domain, one markdown
@@ -52,7 +51,7 @@ read-only `sql_query`, `hybrid_search`, and doc browsing — never from memory. 
 constraint turned out to matter more than anything else, and it's the first thing the
 benchmarks taught me.
 
-## Lesson 1: grounding isn't a model property, it's something you build
+## Grounding isn't a model trait. You build it in.
 
 The first time I graded the agent — against a hand-built Pokémon graph, six questions,
 answers pulled straight from the DB — it got 3 of 6. But the worst miss wasn't a wrong
@@ -75,12 +74,12 @@ honesty in, rather than hoping the model has it — is what makes everything dow
 trustworthy. And it's what lets a *small* model be useful at all: when it can't do
 something, it declines instead of inventing.
 
-## Lesson 2: capability is real, and you can measure it per pattern
+## How small can you go?
 
-So how small can the model actually go? I auto-generated 83 Pokémon questions
-(templated over every relation, gold answers straight from SQL) and ran the two
-smallest Gemma tiers head to head, scored deterministically — recall, exact-match, and
-precision, which catches over-generation without an LLM judge anywhere in the loop.
+Back to the original question. I auto-generated 83 Pokémon questions (templated over every
+relation, gold answers straight from SQL) and ran the two smallest Gemma tiers head to
+head, scored deterministically on recall, exact-match, and precision, which catches
+over-generation without an LLM judge anywhere in the loop.
 
 ```
 Overall exact-match accuracy (n=83)
@@ -90,62 +89,60 @@ Overall exact-match accuracy (n=83)
 ```
 
 Double the parameters, ~2.4× the accuracy. But the *shape* of the gap was the
-interesting part, not the headline number. The small model collapses on **reverse
-traversal** — "which Pokémon are Fire type," where you filter the target, gather the
-sources, and invert the edge — at 7%, while E4B is direction-agnostic at 80%.
+interesting part, not the headline number. The small model collapses on reverse
+traversal — "which Pokémon are Fire type," where you filter the target, gather the
+sources, and invert the edge — scoring 7%, while E4B is direction-agnostic at 80%.
 
-And here's the result I keep coming back to: **honest failure scales down with the
-model.** E2B fails far more often, sure — but ~72% of its failures are honest "not
-found," which is virtually the same honest share as E4B's. The small model is
-dramatically less *capable* and barely more *deceptive*. The grounding holds even when
-the model is weak.
+And here's the result I keep coming back to: honest failure scales down with the model.
+E2B fails far more often, sure, but ~72% of its failures are honest "not found," which is
+virtually the same honest share as E4B's. The small model is dramatically less *capable*
+and barely more *deceptive*. The grounding holds even when the model is weak.
 
-So model size buys you capability — harder query shapes, multi-answer completeness —
-but it doesn't buy you integrity. That you get from design. Hang onto that distinction,
-because it's about to do some real work.
+So model size buys you capability: harder query shapes, multi-answer completeness. It
+doesn't buy you integrity. That you get from design, and the distinction is about to do
+some real work.
 
-## Lesson 3: a real corpus, judged on my own machine
+## A real corpus, graded on my own machine
 
 Pokémon is a toy. To test against something I didn't build myself, I pointed the system
-at [GraphRAG-Bench](https://github.com/GraphRAG-Bench/GraphRAG-Benchmark)'s **medical**
-track — a ~1 MB prose corpus with graded questions in four styles (Fact Retrieval,
+at [GraphRAG-Bench](https://github.com/GraphRAG-Bench/GraphRAG-Benchmark)'s medical
+track: a ~1 MB prose corpus with graded questions in four styles (Fact Retrieval,
 Complex Reasoning, Contextual Summarize, Creative Generation), normally scored by a
 `gpt-4o-mini` judge.
 
 `okb` ingests structured graphs, so I needed an extraction pass to turn prose into a
 graph first. As a quick first cut I had a local Qwen-35B read the corpus in chunks and
 emit entities and relations — a throwaway script, one pass, no cleanup. Then I ran the
-*entire* evaluation loop locally: answering with Gemma, and **judging with that same
-local Qwen** (GraphRAG-Bench's eval speaks OpenAI, so I just pointed `base_url` at
-localhost). Nothing left the box.
+*entire* evaluation loop locally: answering with Gemma, and judging with that same local
+Qwen (GraphRAG-Bench's eval speaks OpenAI, so I just pointed `base_url` at localhost).
+Nothing left the box.
 
-Two things came out of that run. The first was a dull but critical bug: the agent was
-loading at llama.cpp's default **8k context**, and long tool loops overflowed it into
-blank answers. The fix was two parts — bump the context to **32k**, and cap each tool's
-output so a single fat result can't flood the window on its own. On the medical sample
-that turned 5 previously-blank answers (the kind that needed nine tool calls each) into
-real ones.
+Two things came out of that run. The first was a dull but critical bug. The agent was
+loading at llama.cpp's default 8k context, and long tool loops overflowed it into blank
+answers. The fix had two parts: bump the context to 32k, and cap each tool's output so a
+single fat result can't flood the window on its own. On the medical sample that turned 5
+previously-blank answers (the kind that needed nine tool calls each) into real ones.
 
 The second was more interesting: coverage and capability are coupled. Scaling the graph
-made the *small* E4B model slightly worse — it drowned in the extra density — while the
-same dense graph in front of **Gemma 12B** turned that density into signal and climbed
-to **0.520** overall answer-correctness, led by Complex Reasoning at 0.590.
+made the *small* E4B model slightly worse, since it drowned in the extra density, while
+the same dense graph in front of Gemma 12B turned that density into signal and climbed to
+0.520 overall answer-correctness, led by Complex Reasoning at 0.590.
 
-For context, the published GraphRAG-Bench medical systems (GPT-4o-mini as both
-generator and judge) sit in roughly the **0.54–0.68** band. A 4-bit local 12B, reading
-a naïve one-pass graph, judged by a *different* model, landing at **0.52** was a lot
-closer than I expected it to be. And it set up the question I actually cared about.
+For context, the published GraphRAG-Bench medical systems (GPT-4o-mini as both generator
+and judge) sit in roughly the 0.54–0.68 band. A 4-bit local 12B, reading a naïve
+one-pass graph, judged by a *different* model, landing at 0.52 was a lot closer than I
+expected. And it set up the question I actually cared about.
 
-## The pivot: same graph, frontier brain
+## Same graph, frontier brain
 
 The OKF bundle is a portable skill. So the obvious thing to try: what happens if I hand
 it not to local Gemma, but to a *frontier* model?
 
-I spun up **Claude Sonnet** subagents, gave each one the same medical bundle, and let
-them answer the same 32-question sample using the bundle's *generic* toolkit — the
-`duckdb` CLI, `okb query`, the markdown docs — under the same "ground every fact, no
-outside knowledge" rule. Then I scored them with the **same local judge** that graded
-the local agent. Apples to apples on everything except the brain doing the reading.
+I spun up Claude Sonnet subagents, gave each one the same medical bundle, and let them
+answer the same 32-question sample using the bundle's *generic* toolkit — the `duckdb`
+CLI, `okb query`, the markdown docs — under the same "ground every fact, no outside
+knowledge" rule. Then I scored them with the same local judge that graded the local
+agent. Apples to apples on everything except the brain doing the reading.
 
 ```
 Answer-correctness, same graph, same judge (n=32)
@@ -160,20 +157,19 @@ Answer-correctness, same graph, same judge (n=32)
 ```
 
 The frontier model did not win. A model orders of magnitude larger, reading the exact
-same graph, came in at 0.491 — a statistical tie with, and nominally below, a 4-bit 12B
-running on my desk. And I want to be fair here: Sonnet is a far better reasoner and
-writer, and you can see exactly where that earns its keep — it edges ahead on Fact
-Retrieval and Creative Generation. But it can't retrieve facts that *aren't in the
-graph.* I asked for adrenocortical-carcinoma symptoms, where the gold answer lists
-fifteen and my graph held two; Sonnet navigated harder than Gemma did and hit the same
-wall. Pheochromocytoma had no node at all — and no amount of intelligence reads a node
-that doesn't exist.
+same graph, came in at 0.491, a statistical tie with and nominally below a 4-bit 12B
+running on my desk. I want to be fair here: Sonnet is a far better reasoner and writer,
+and you can see exactly where that earns its keep, since it edges ahead on Fact Retrieval
+and Creative Generation. But it can't retrieve facts that *aren't in the graph.* I asked
+for adrenocortical-carcinoma symptoms, where the gold answer lists fifteen and my graph
+held two; Sonnet navigated harder than Gemma did and hit the same wall. Pheochromocytoma
+had no node at all, and no amount of intelligence reads a node that doesn't exist.
 
 That's the whole thesis in one table: the expertise is in the graph, not in the model
-reading it. Which means the bottleneck — and all the leverage — is *extraction.* So I
-went and built a real one.
+reading it. Which means the bottleneck, and all the leverage, is *extraction.* So I went
+and built a real one.
 
-## The payoff: build a better graph, and the small model pulls ahead
+## Build a better graph, and the small model pulls ahead
 
 The throwaway Qwen script had left obvious damage behind: duplicate entities
 (`hodgkin_lymphoma`, `_2`, `_3`), a sprawling ~150-relation vocabulary with
@@ -191,29 +187,29 @@ model running five stages with no external server anywhere:
 4. **Resolve** — embed every entity and merge duplicates into canonical nodes.
 5. **Normalize** — collapse the relation vocabulary down to one canonical direction.
 
-Then I re-ran the *exact same* 32-question benchmark. And the first full run **regressed
-hard** — 0.405, well below the old Qwen graph's 0.520. Honestly, that failure turned out
-to be the most useful thing in the whole project.
+Then I re-ran the *exact same* 32-question benchmark. The first full run regressed hard:
+0.405, well below the old Qwen graph's 0.520. Honestly, that failure turned out to be the
+most useful thing in the whole project.
 
-The culprit was entity resolution doing its job *too* well. My first clustering pass
-used single-linkage: if A is similar to B and B to C, all three merge. On a medical
-corpus that chains catastrophically — `cancer` ~ `breast cancer` ~ `adenocarcinoma` ~ …
-— and **120+ distinct cancers collapsed into a single `disease:cancer` node** carrying
-349 aliases. Fact Retrieval cratered from 0.404 to 0.285. Over-merging destroys a graph
-just as thoroughly as under-merging does; you just can't see it in the node count, which
-is what makes it nasty.
+The culprit was entity resolution doing its job *too* well. My first clustering pass used
+single-linkage: if A is similar to B and B to C, all three merge. On a medical corpus
+that chains catastrophically (`cancer` ~ `breast cancer` ~ `adenocarcinoma` ~ …), and
+120+ distinct cancers collapsed into a single `disease:cancer` node carrying 349 aliases.
+Fact Retrieval cratered from 0.404 to 0.285. Over-merging destroys a graph just as
+thoroughly as under-merging does, and you can't see it in the node count, which is what
+makes it nasty.
 
-The fix was **representative-based (leader) clustering**: a candidate joins a cluster
-only if it's similar to that cluster's *representative*, not merely to some member —
-which kills the transitive chaining — with an LLM adjudicator settling the genuinely
-ambiguous pairs in between. I also pushed the thresholds up (auto-merge 0.86 → 0.93,
-with a 0.86–0.93 gray band routed to the adjudicator instead of merged blindly). The
-349-alias hub broke back apart into 81 distinct cancer subtypes.
+The fix was representative-based (leader) clustering: a candidate joins a cluster only if
+it's similar to that cluster's *representative*, not merely to some member, which kills
+the transitive chaining. An LLM adjudicator settles the genuinely ambiguous pairs in
+between. I also pushed the thresholds up (auto-merge 0.86 → 0.93, with a 0.86–0.93 gray
+band routed to the adjudicator instead of merged blindly). The 349-alias hub broke back
+apart into 81 distinct cancer subtypes.
 
 The part that made this bearable: I'd started persisting the pre-resolution graph to
 `raw-extraction.json`, so `okb extract --from-raw` re-runs resolve → normalize → emit
 *without* re-extracting. Re-tuning resolution went from an overnight job to a
-minutes-long loop. And the score didn't just recover — it took the lead:
+minutes-long loop. And the score didn't just recover, it took the lead:
 
 ```
 GraphRAG-Bench medical, same 32 questions, same local judge
@@ -225,20 +221,20 @@ GraphRAG-Bench medical, same 32 questions, same local judge
   okb extract (leader-clustering) + 12B ███ 0.581   0.452   ← fixed
 ```
 
-**0.581 overall** — beating both the 35B-built graph (0.520) and frontier Sonnet
-(0.491), with Fact Retrieval, the most extraction-bound metric, recovering to 0.452 and
-landing ahead of Sonnet's 0.429. Same small local answerer the whole way through. The
-*only* thing that changed was the quality of the graph it was reading.
+0.581 overall, beating both the 35B-built graph (0.520) and frontier Sonnet (0.491). Fact
+Retrieval, the most extraction-bound metric, recovered to 0.452 and landed ahead of
+Sonnet's 0.429. Same small local answerer the whole way through. The *only* thing that
+changed was the quality of the graph it was reading.
 
 That's the thesis, confirmed and then flipped: a better graph didn't just close the gap
 to the frontier model, it lifted a 4-bit local model clean *past* it. Entity resolution
-turned out to be the single highest-leverage knob in the entire system — and it's a
+turned out to be the single highest-leverage knob in the whole system, and it's a
 data-engineering problem, not a model problem.
 
-## What this is actually good for: micro-scale domain experts
+## What this is actually good for
 
-Put the three lessons together — grounding is design, capability is measurable, the
-graph is the expert — and a build pattern just falls out of them. I've been calling it a
+Put the three pieces together — grounding is design, capability is measurable, the graph
+is the expert — and a build pattern just falls out of them. I've been calling it a
 **micro-scale domain expert**: a single OKF bundle for one bounded domain. Your
 product's data. An internal runbook corpus. A regulatory standard. A research
 literature. A customer's catalog. Whatever. And it has four properties I care about:
@@ -271,7 +267,7 @@ honest, model-agnostic domain experts, where the intelligence you're buying live
 data you curate rather than the model you run.
 
 And a 4-bit model on my desk beating frontier Claude on the same benchmark isn't a knock
-on Claude — I want to be clear about that. It's the best news in the whole project. It
+on Claude. I want to be clear about that. It's the best news in the whole project. It
 means the expensive, scarce thing isn't the bottleneck. The graph is. And graphs, you
 can build.
 
