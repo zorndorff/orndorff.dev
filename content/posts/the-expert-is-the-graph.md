@@ -44,6 +44,11 @@ and the database itself. It's human-readable, agent-readable, and precisely quer
 all at once. Hand that one directory to anything that can read files and run SQL, and
 it knows your domain. That bundle is the product.
 
+![okb ingests the Pokémon data, packs a bundle, and cats the Charizard concept doc — its properties table and an EVOLVES_TO cross-link](/okb-bundle.gif)
+
+*Building the Pokémon bundle, then `cat`-ing one concept doc. The graph is just
+cross-linked markdown plus a database you can query — nothing to stand up to read it.*
+
 The local agent (`okb agent --bundle ./some-bundle`) answers over it using **Gemma 4**
 for generation and **EmbeddingGemma-300M** for retrieval, both running under Vulkan on
 an AMD Ryzen AI MAX+ 395 ("Strix Halo"). It answers *only* by calling tools — `schema`,
@@ -73,6 +78,11 @@ former and you can't build on the latter. That one design choice — engineering
 honesty in, rather than hoping the model has it — is what makes everything downstream
 trustworthy. And it's what lets a *small* model be useful at all: when it can't do
 something, it declines instead of inventing.
+
+![the local okb agent lists Eevee's three in-graph evolutions, then declines to answer about a Pokémon the graph doesn't hold](/okb-grounding.gif)
+
+*The grounded agent, fully local: Eevee's three evolutions pulled straight from the
+graph, and an honest "couldn't find it" when I ask about a Pokémon that isn't in there.*
 
 ## How small can you go?
 
