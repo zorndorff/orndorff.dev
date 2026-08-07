@@ -31,13 +31,14 @@ does exactly this — [`okb`](/posts/the-expert-is-the-graph/), the open-knowled
 
 ## A real one: K–12 teaching
 
-I pointed it at **22 K–12 pedagogy documents** — federal practice guides, research
-syntheses, district policy. Out came one auto-generated wiki:
+I pointed it at **22 K–12 documents** — federal What Works Clearinghouse practice
+guides, special-education research, and a sample school's own handbooks and policies.
+Out came one auto-generated wiki:
 
 - **3,360 concepts**, **4,251 relationships** between them
 - one portable **24 MB** file — host it, email it, embed it
 - every concept linked back to the exact source it came from
-- **built entirely on one workstation. $0 in AI API spend. Nothing left the machine.**
+- **built on a single workstation. $0 in inference spend, no model fine-tuned.**
 
 Then a teacher's question: *which evidence-based interventions help struggling readers
 build fluency, and who recommends them?* The local agent worked the wiki in 11 lookups
@@ -50,7 +51,7 @@ teacher.
 
 - **Grounded.** Answers are assembled from cited facts, not generated vibes.
 - **Honest.** No source, no answer — it declines instead of bluffing.
-- **Private & cheap.** Builds and runs local. No per-token bill, no data leaving the box.
+- **Private & cheap.** The build and every query run on local models — no per-token bill.
 - **Portable.** One file. The same wiki works under a tiny local model *or* a frontier
   one — you pick per job.
 - **Repeatable.** Pedagogy was the example, not the limit. Swap the documents, get a new
