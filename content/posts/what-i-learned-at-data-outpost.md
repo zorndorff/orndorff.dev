@@ -5,7 +5,7 @@ description = "Where agentic data platforms are heading in 2026–27: curation o
 categories = ["AI", "Data"]
 tags = ["ai", "agents", "data", "semantic-layer", "duckdb", "motherduck", "observability", "evals"]
 type = "posts"
-draft = true
+draft = false
 +++
 
 Last week I spent two days at MotherDuck's Outpost: a hands-on workshop on building analytics agents, then a full day of talks and a panel. It confirmed my suspicion that AI/LLMs have reached the level of a junior-to-intermediate data analyst or data support specialist. To be effective, the environment, documentation, and tools matter more than anything else. Through 2026–27, the model stops being the interesting variable. The environment is.
