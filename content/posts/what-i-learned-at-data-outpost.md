@@ -8,7 +8,7 @@ type = "posts"
 draft = false
 +++
 
-Last week I spent two days at MotherDuck's Outpost: a hands-on workshop on building analytics agents, then a full day of talks and a panel. It confirmed my suspicion that AI/LLMs have reached the level of a junior-to-intermediate data analyst or data support specialist. To be effective, the environment, documentation, and tools matter more than anything else. Through 2026–27, the model stops being the interesting variable. The environment is.
+Last week I spent two days at MotherDuck's [Outpost](https://www.dataoutpost.ai/): a hands-on workshop on building analytics agents, then a full day of talks and a panel. It confirmed my suspicion that AI/LLMs have reached the level of a junior-to-intermediate data analyst or data support specialist. To be effective, the environment, documentation, and tools matter more than anything else. Through 2026–27, the model stops being the interesting variable. The environment is.
 
 Jordan Tigani opened his keynote by calling SQL writing "a solved problem." Agents no longer one-shot a query; they explore the data the way an analyst does. On the panel, Shreya Shankar shared her Data Agent Benchmark: the best frontier agents, without a carefully curated semantic layer, land at about **70% pass@1**. Students who pre-processed the data and built semantic layers got another **15% or more**.
 
