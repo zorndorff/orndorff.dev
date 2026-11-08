@@ -15,7 +15,7 @@ Every talk pointed the same way. Jordan Tigani opened his keynote by calling SQL
 
 That's the junior analyst. Technically capable, fast, and wrong about a third of the time because nobody told them how the business actually works. As Shreya put it, "if you're making business decisions, you don't want your agent to be right only 70% of the time."
 
-Successfully integrating frontier intelligence into data workflows (reporting, analysis, and data product creation) depends on 3 key pillars.
+Successfully integrating frontier intelligence into data workflows (reporting, analysis, and data product creation) depends on 3 key pillars. None of them are exotic. They're basic data hygiene, written-down context, and a habit of checking the work, and at Outpost they beat clever automation every time.
 
 ## Data Organization
 
@@ -80,12 +80,28 @@ Some concrete loops from the sessions:
 
 Every organization that wants to integrate AI into its processes and products will need to focus on these 3 areas to succeed, whether the product is internal or customer facing.
 
+## Boring beats clever
+
+The thing that surprised me most: the wins on stage weren't elaborate. Nobody showed a multi-agent orchestration framework with a dozen specialized roles handing tasks to each other. What worked was basic data hygiene, written-down context, and a sane layout. What failed were the clever ones.
+
+Fleetio is the cleanest example. Their first data agent had a name, a mascot, and a broad mandate. Rhee: "What went wrong was a mixture of the state of the art at the time, probably a lot of over-engineering (that's my bad, I'll fully take the point for that), and not being clear on what problem we were trying to solve." The second version was unnamed, did tedious work, and was measured by merged PRs. It worked.
+
+It's tempting to reach for automation to paper over a messy catalog: a routing agent that figures out which of five databases holds the answer, a reconciliation step that guesses which "revenue" you meant, a retry loop that keeps going until the query stops erroring. Each of those is a Rube Goldberg machine built around a problem you could fix at the source by renaming a table, writing a paragraph of markdown, or deleting a duplicate. Fix the data and you don't need the contraption. Build the contraption instead and it becomes one more thing the next agent (and the next human) has to figure out.
+
+Mehdi's point about self-healing agents is the same lesson from the other direction. "People say, 'I don't need observability, the agent is working.' Yes, but maybe the agent could work faster and cheaper." An agent that eventually gets there by retrying is a contraption hiding a hygiene problem.
+
 ## What does that look like in practice?
 
 At its simplest, it can be a small set of flat files in a bucket, queryable through a standard chat interface. Queries are graded based on user feedback. Documentation takes the form of data skills and guides co-located with the files. A developer or agent watches those insights and optimizes wherever the execution or output doesn't meet the standard.
 
-That's not far from what the workshop actually built, step by step. Level one was DuckDB and a skill file on a laptop. Level two put the data behind an MCP with guides attached. The later levels added secure views, a custom MCP server, OpenTelemetry traces, and finally a "Dive Keeper" agent, deployed as a MotherDuck Flight, that watches a dashboard for wrong numbers and explains the spikes. None of it is exotic. It's just the three pillars, in order.
+MotherDuck's own stack shows how few moving parts that takes. Three plain building blocks cover all three pillars:
+
+- **Guides** are the documentation. They're markdown attached to a dataset and served to the agent when it connects. No metrics API, no modeling language: a paragraph saying "ARR is always taken from Sunday," and a note to keep money in cents.
+- **Flights** are the organization and the loop. They're scheduled or event-based jobs that run next to the data. They handle ingestion and transforms (the RISC-V team brings everything in through Flights), and the workshop's "Dive Keeper" agent ran as one, watching a dashboard for numbers that look wrong. Mehdi floated another: a daily Flight that reviews all the guides and sends warnings to Slack.
+- **Dives** are the watching. They're lightweight data apps the agent builds from chat. Tigani's entire keynote was a Dive, and he "didn't have to know any SQL or Python or any other programming language" to build it. Mehdi's view is that chat is where you build and UIs are where you watch: "a dedicated custom UI where I drag and drop things, I don't think that will survive."
+
+That's it. Markdown, scheduled jobs, and simple apps, sitting on top of well-organized data. The workshop climbed from a DuckDB CLI and a skill file on a laptop up to a custom server-side agent, but every level stood on the same foundation, and the early levels did most of the work. You don't need the top of the ladder to get value. You need the bottom rungs done well.
 
 Fleetio's other lesson fits here too: make it multiplayer. They put their data agent in a public Slack channel, and people learned how to use it by reading each other's threads. Then it "got out": product managers, engineering managers, and engineers started using it to make changes to the warehouse, and their Salesforce admin started running analysis with it. Feedback in public is also feedback you can grade.
 
-My biggest takeaway is that the hard part isn't the model anymore. It's the same work we've always owed a new hire: a tidy place to work, a clear explanation of what things mean, and someone checking the work and fixing what keeps going wrong. The difference is that this new hire starts over every single session, so the cost of skipping that work compounds fast.
+My biggest takeaway is that the hard part isn't the model anymore, and it isn't the automation either. It's the same work we've always owed a new hire: a tidy place to work, a clear explanation of what things mean, and someone checking the work and fixing what keeps going wrong. The difference is that this new hire starts over every single session, so every shortcut you take on hygiene gets paid for again, every time.
